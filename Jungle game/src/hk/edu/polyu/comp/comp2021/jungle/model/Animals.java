@@ -1,23 +1,28 @@
 package hk.edu.polyu.comp.comp2021.jungle.model;
 
-public class Animals {
+enum Animals {
+    ELEPHANT("Elephant",8), LION("Lion", 7), TIGER("Tiger", 6),
+    LEOPARD("Leopard",5), WOLF("Wolf",4), DOG("Dog", 3),CAT("Cat", 2),RAT("Rat", 1);
+
     private String name;
     private int rank;
-    public Animals(String name) {
+    private String BelongsToPlayer;
+
+    Animals(String name, int rank) {
         this.name = name;
-        switch (name){
-            case "Elephant" : rank = 8;
-            case "Lion" : rank = 7;
-            case "Tiger" : rank = 6;
-            case "Leopard" : rank = 5;
-            case "Wolf" : rank = 4;
-            case "Dog" : rank = 3;
-            case "Cat" : rank = 2;
-            case "Rat" : rank = 1;
-        }
+        this.rank = rank;
     }
 
-    public boolean canCapture(Animals other){
+    void setBelongsToPlayer(String playerName){
+        BelongsToPlayer = playerName;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " of " + BelongsToPlayer;
+    }
+
+    public boolean higherRank(Animals other){
         return this.rank>=other.rank;
     }
 

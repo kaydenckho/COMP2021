@@ -24,15 +24,16 @@ public class JungleGame {
     }
 
     public void StartNewGame(){
-        Board board = new Board();
-        Animals Elephant = new Animals("Elephant");
-        Animals Lion = new Animals("Lion");
-        Animals Tiger = new Animals("Tiger");
-        Animals Leopard = new Animals("Leopard");
-        Animals Wolf = new Animals("Wolf");
-        Animals Dog = new Animals("Dog");
-        Animals Cat = new Animals("Cat");
-        Animals Rat = new Animals("Rat");
+        String playerX;
+        String playerY;
+        System.out.println("Please enter your names.");
+        System.out.print("Player X: ");
+        Scanner scanner = new Scanner(System.in);
+        playerX = scanner.next();
+        System.out.print("Player Y: ");
+        playerY = scanner.next();
+
+        Board board = new Board(playerX, playerY);
     }
 
     public void OpenSavedGame(){
