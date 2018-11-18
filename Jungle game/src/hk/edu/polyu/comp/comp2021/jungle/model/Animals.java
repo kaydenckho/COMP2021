@@ -1,7 +1,7 @@
 package hk.edu.polyu.comp.comp2021.jungle.model;
 
 public class Animals {
-    public String name;
+    private String name;
     private int rank;
     public Animals(String name) {
         this.name = name;
