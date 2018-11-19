@@ -3,7 +3,7 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 class Board {
     private Animals[][] array;
     public Board(String playerX, String playerY){
-        array = new Animals[9][7];
+        array = new Animals[9][7];                                  // board array = new Cell[8][6]??
 
         Animals Elephant1 = Animals.ELEPHANT;
         Animals Lion1 = Animals.LION;
