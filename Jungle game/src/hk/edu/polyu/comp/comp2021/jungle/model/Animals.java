@@ -5,7 +5,8 @@ enum Animals {
     LEOPARD("Leopard",5), WOLF("Wolf",4), DOG("Dog", 3),CAT("Cat", 2),RAT("Rat", 1);
 
     private String name;
-    private int rank;
+    private int rank;                                                               // The power of the animal
+    private static final int MAX_RANK = 8;                                          // Max rank of power level is 8 = elephant
     private String BelongsToPlayer;
 
     Animals(String name, int rank) {
@@ -19,11 +20,16 @@ enum Animals {
 
     @Override
     public String toString() {
-        return this.name + " of " + BelongsToPlayer;
+        return this.name + " of " + BelongsToPlayer;                                // Return the name of the animal objects
     }
 
     public boolean higherRank(Animals other){
-        return this.rank>=other.rank;
+        if(other.rank == MAX_RANK){                                                 // See if other == elephant
+            return (this.rank == 1) || (this.rank == MAX_RANK);                     // if (this == rat) or (this == elephant) then higherRank = true
+        }
+        else{
+            return this.rank>=other.rank;                                           //if other != elephant, rank is calculated with normal method
+        }
     }
 
 }
