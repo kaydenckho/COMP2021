@@ -2,48 +2,52 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import javafx.scene.control.Cell;
 
-enum Animals {
+public enum Animals {
     ELEPHANT("Elephant",8), LION("Lion", 7), TIGER("Tiger", 6),
     LEOPARD("Leopard",5), WOLF("Wolf",4), DOG("Dog", 3),CAT("Cat", 2),RAT("Rat", 1);
 
-    private String name;
+    private String name;                                                            // name of animal
     private int rank;                                                               // The power of the animal
     private static final int MAX_RANK = 8;                                          // Max rank of power level is 8 = elephant
-    private String BelongsToPlayer;
+    private String owner;                                                           // owner of the animal
 
     Animals(String name, int rank) {
         this.name = name;
         this.rank = rank;
     }
 
-    void setBelongsToPlayer(String playerName){
-        BelongsToPlayer = playerName;                                               // Initialize the master of the animal object
+    void setOwner(String playerName){
+         owner = playerName;                                               // Initialize the master of the animal object
     }
 
     @Override
     public String toString() {
-        return this.name + " of " + BelongsToPlayer;                                // Return the name of the animal objects
+        return this.name + " of " + owner;                                // Return the name of the animal objects
     }
 
-    public boolean higherRank(Animals other){
-        if(other.rank == MAX_RANK){                                                 // See if other == elephant
-            return (this.rank == 1) || (this.rank == MAX_RANK);                     // if (this == rat) or (this == elephant) then higherRank = true
+    public boolean CanCapture(Animals other) {
+        if (this.owner.equals(other.owner)) {                            // See if other piece is in enemy's team; if yes, return false
+            return false;
         }
-        else{
-            return this.rank>=other.rank;                                           //if other != elephant, rank is calculated with normal method
+        else {
+            if (other.rank == MAX_RANK) {                                                 // See if other == elephant
+                return (this.rank == 1) || (this.rank == MAX_RANK);                     // if (this == rat) or (this == elephant) then higherRank = true
+            } else {
+                return this.rank >= other.rank;                                           //if other != elephant, rank is calculated with normal method
+            }
         }
     }
 
     public Cell valid_move(int dir, int x, int y){                                           //dir determines up, down, left, right: cell row and column x,y (dir checked in board class)
-        //if(!boardClassname.arrayName[x][y].hasAnimal()){                                   // Check if the cell move from has an animal (Should be done in board class)
-        //    return false;                                                                  // valid_move should be called in board class after interpreting the move command
-        //}                                                                                  // if returned address not null || address = destination address(done in board class) -> next step: move.
+//        if(!boardclassname.arrayname.hasAnimal()){                                   // Check if the cell move from has an animal (Should be done in board class)
+//            return false;                                                                  // valid_move should be called in board class after interpreting the move command
+//        }                                                                                  // if returned address not null || address = destination address(done in board class) -> next step: move.
         switch(dir){                                                                         // Check if the moving direction is out of bound
             case 1:{
                 if(y+1 > 8){return null;}
                 else{
                     y=y+1;
-                    Cell nextcell = boardClassname.arrayName[x][y]
+                    Cell nextcell = array[x][y];
                 }
             }
             case 2:{
@@ -95,5 +99,6 @@ enum Animals {
             return nextcell;                                            // if next cell is not water, then all animals can attempt eat function called in board class
         }                                                           // including case: mouse(water) -> mouse, animal -> animal(trap), animal(trap) -> animal
     }                                                               // if next cell has animal -> attempt eat (attacker not in water && higherRank || attacker in trap )
-                                                                    // call move if valid_move and destination matched, call eat in move if destination has an animal
+    // call move if valid_move and destination matched, call eat in move if destination has an animal
+
 }
