@@ -1,0 +1,59 @@
+
+
+		String path = "";   // custom save directory that input in save/load command;
+        String filename = "/mysave.ser";	// save file name
+        boolean turn = false;				// additional turn variable indicates whose turn now
+        
+		if(path.length() != 0){				// increase path error torlerance
+            path = path+"/";
+        }
+		
+		// command reading
+		if (commandArray[0].equals("save")) {
+            if(commandArray.length > 1){
+			path = commandArray[1];
+			};
+			//Saving objects, every objects to be saved need to use implement Serializable
+			try {
+				FileOutputStream fs = new FileOutputStream(path+filename);
+				ObjectOutputStream os = new ObjectOutputStream(fs);
+				os.writeObject(playerX);
+				os.writeObject(playerY);
+				os.writeObject(turn);
+				os.writeObject(board);
+				os.close();
+				}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+			break;
+        }
+		
+		
+		
+		if (commandArray[0].equals("load")) {
+			if(commandArray.length > 1){
+			path = commandArray[1];
+			};
+            OpenSavedGame();
+        }
+		
+		
+		public class OpenSavedGame{
+			public static void main(String args[]){
+				//loading save files from path in load command 
+				try {
+					FileInputStream fis = new FileInputStream(path+filename);
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					playerX = (Player)ois.readObject();
+					playerY = (Player)ois.readObject();
+					turn = (boolean)ois.readObject();
+					board = (Board)ois.readObject();
+					ois.close();
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		}
+		
