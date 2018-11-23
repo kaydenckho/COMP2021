@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -88,9 +89,31 @@ public class JungleGameGUI extends Application {
         MenuItem Open = new MenuItem("Open");
         MenuItem Save = new MenuItem("Save");
         MenuItem Surrender = new MenuItem("Surrender");
-        New.setOnAction((ActionEvent event) -> CreateImages());
+        // Do action for "New" here
+        New.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+                CreateImages();
+            }
+        });
+        // Do action for "Open" here
+        Open.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
 
-        menu.getItems().addAll(New,Open,Save,Surrender);
+            }
+        });
+        // Do action for "Save" here
+        Save.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+
+            }
+        });
+        // Do action for "Surrender" here
+        Surrender.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent event) {
+
+            }
+        });
+        menu.getItems().addAll(New, Open, Save, Surrender);
         menubar.getMenus().add(menu);
         root.setTop(menubar);
 
