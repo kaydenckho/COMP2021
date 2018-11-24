@@ -166,6 +166,21 @@ public class JungleGameGUI extends Application {
                                 Node img = btn[temp[0].x][8-temp[0].y].getGraphic();
                                 btn[temp[1].x][8-temp[1].y].setGraphic(img);
                                 btn[temp[0].x][8-temp[0].y].setGraphic(null);
+                                // fill rivers
+                                for(int i=1; i<=5; i++) {
+                                    for (int j = 3; j <= 5; j++) {
+                                        if (i != 3 && btn[i][j].getGraphic()==null) {
+                                            btn[i][j].setGraphic(new ImageView(images[8]));
+                                        }
+                                    }
+                                }
+                                // fill traps
+                                if (btn[2][0].getGraphic()==null)btn[2][0].setGraphic(new ImageView(images[9]));
+                                if (btn[4][0].getGraphic()==null)btn[4][0].setGraphic(new ImageView(images[9]));
+                                if (btn[3][1].getGraphic()==null)btn[3][1].setGraphic(new ImageView(images[9]));
+                                if (btn[3][7].getGraphic()==null)btn[3][7].setGraphic(new ImageView(images[9]));
+                                if (btn[4][8].getGraphic()==null)btn[4][8].setGraphic(new ImageView(images[9]));
+                                if (btn[2][8].getGraphic()==null)btn[2][8].setGraphic(new ImageView(images[9]));
                             }
 
                         }
