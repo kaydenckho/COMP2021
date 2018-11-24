@@ -71,22 +71,8 @@ public class JungleGame {
                     else if (commandArray[0].equals("save")) {
                         if(commandArray.length > 1){
                             path = commandArray[1];
-                        };
-                        //Saving objects, every objects to be saved need to use implement Serializable
-                        try {
-                            FileOutputStream fs = new FileOutputStream(path+filename);
-                            ObjectOutputStream os = new ObjectOutputStream(fs);
-                            os.writeObject(playerX);
-                            os.writeObject(playerY);
-                            os.writeObject(turn);
-                            os.writeObject(board);
-                            os.close();
                         }
-                        catch(Exception ex){
-                            System.out.println("Opps, unable to save.");
-                            ex.printStackTrace();
-                        }
-                        save = true;
+                        save = SaveGame();
                         break;
                     }
                     else{
@@ -112,21 +98,7 @@ public class JungleGame {
                         if(commandArray.length > 1){
                             path = commandArray[1];
                         };
-                        //Saving objects, every objects to be saved need to use implement Serializable
-                        try {
-                            FileOutputStream fs = new FileOutputStream(path+filename);
-                            ObjectOutputStream os = new ObjectOutputStream(fs);
-                            os.writeObject(playerX);
-                            os.writeObject(playerY);
-                            os.writeObject(turn);
-                            os.writeObject(board);
-                            os.close();
-                        }
-                        catch(Exception ex){
-                            System.out.println("Opps, unable to save.");
-                            ex.printStackTrace();
-                        }
-                        save = true;
+                        save = SaveGame();
                         break;
                     }
                     else {
@@ -182,6 +154,25 @@ public class JungleGame {
             return true;
         }
         catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean SaveGame(){
+        //Saving objects, every objects to be saved need to use implement Serializable
+        try {
+            FileOutputStream fs = new FileOutputStream(path+filename);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(playerX);
+            os.writeObject(playerY);
+            os.writeObject(turn);
+            os.writeObject(board);
+            os.close();
+            return true;
+        }
+        catch(Exception ex){
+            System.out.println("Opps, unable to save.");
             ex.printStackTrace();
             return false;
         }
