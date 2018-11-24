@@ -292,13 +292,24 @@ public class JungleGameGUI extends Application {
                         invalid.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/invalid.gif").toString()));
                     }
                 }
-                catch (Exception e){}
+                catch (Exception e){
+                    //e.printStackTrace();
+                }
             }
         });
         // Do action for "Open" here
         Open.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
-
+                try{
+                    if(game.OpenSavedGame()){
+                        String[] names = {game.playerX.name, game.playerY.name};
+                        //initailize images according to board
+                        SetupButtons();
+                    }
+                }
+                catch(Exception e){
+                    //e.printStackTrace();
+                }
             }
         });
         // Do action for "Save" here
