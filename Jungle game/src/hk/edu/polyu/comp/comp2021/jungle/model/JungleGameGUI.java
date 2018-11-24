@@ -24,9 +24,13 @@ public class JungleGameGUI extends Application {
 
     private JungleGame game = new JungleGame();
     private int row_num = 7, col_num = 9;
-    private Image[] images = new Image[11];
+    private Image[] images = new Image[12];
     private static int clicked;
     Position[] temp = new Position[2];
+
+    Alert alertX = new Alert(Alert.AlertType.INFORMATION);
+    Alert alertY = new Alert(Alert.AlertType.INFORMATION);
+    Alert invalid = new Alert(Alert.AlertType.INFORMATION);
 
     // 2D array of Buttons with value of 9,7
     private final Button[][] btn = new Button[row_num][col_num];
@@ -45,7 +49,7 @@ public class JungleGameGUI extends Application {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("New Game");
         dialog.setHeaderText("Welcome To Jungle Game!!\nPlease Enter your Names.");
-        dialog.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/JungleGameIcon.png").toString()));
+        dialog.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/JungleGame.gif").toString()));
 
         ButtonType OKButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(OKButtonType, ButtonType.CANCEL);
@@ -93,17 +97,25 @@ public class JungleGameGUI extends Application {
     }
 
     private void CreateImages(){
-        images[0]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/cat.jpg"));
-        images[1]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/dog.jpg"));
-        images[2]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/wolf.jpg"));
-        images[3]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/lion.jpg"));
-        images[4]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/tiger.jpg"));
-        images[5]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/rat.jpg"));
-        images[6]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/leopard.jpg"));
-        images[7] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/elephant.jpg"));
-        images[8]  = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/river.jpg"));
-        images[9] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/trap.jpg"));
-        images[10] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/den.jpg"));
+        images[0]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/cat.gif"));
+        images[1]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/dog.gif"));
+        images[2]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/wolf.gif"));
+        images[3]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/lion.gif"));
+        images[4]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/tiger.gif"));
+        images[5]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/rat.gif"));
+        images[6]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/leopard.gif"));
+        images[7] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/elephant.gif"));
+        images[8]  = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/river.gif"));
+        images[9] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/trap.gif"));
+        images[10] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/den.gif"));
+        images[11] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/grass.gif"));
+
+        //Set all grass map
+        for(int i=0; i<row_num; i++) {
+            for (int j = 0; j < col_num; j++) {
+                btn[i][j].setGraphic(new ImageView(images[11]));
+            }
+        }
 
         // Set X's animals
         btn[0][0].setGraphic(new ImageView(images[3]));
@@ -160,29 +172,82 @@ public class JungleGameGUI extends Application {
                         clicked++;
                         if (clicked >= 2){
                             clicked = 0;
-                            boolean valid = game.board.step(game.playerX,temp[0],temp[1]);
-                            if (valid){
-                                // move the icon of the button
-                                Node img = btn[temp[0].x][8-temp[0].y].getGraphic();
-                                btn[temp[1].x][8-temp[1].y].setGraphic(img);
-                                btn[temp[0].x][8-temp[0].y].setGraphic(null);
-                                // fill rivers
-                                for(int i=1; i<=5; i++) {
-                                    for (int j = 3; j <= 5; j++) {
-                                        if (i != 3 && btn[i][j].getGraphic()==null) {
-                                            btn[i][j].setGraphic(new ImageView(images[8]));
+                            if (game.turn) {
+                                boolean valid = game.board.step(game.playerX, temp[0], temp[1]);
+                                if (valid) {
+                                    // move the icon of the button
+                                    Node img = btn[temp[0].x][8 - temp[0].y].getGraphic();
+                                    btn[temp[1].x][8 - temp[1].y].setGraphic(img);
+                                    btn[temp[0].x][8 - temp[0].y].setGraphic(null);
+                                    // fill rivers
+                                    for(int i=1; i<=5; i++) {
+                                        for (int j = 3; j <= 5; j++) {
+                                            if (i != 3 && btn[i][j].getGraphic()==null) {
+                                                btn[i][j].setGraphic(new ImageView(images[8]));
+                                            }
                                         }
                                     }
-                                }
-                                // fill traps
-                                if (btn[2][0].getGraphic()==null)btn[2][0].setGraphic(new ImageView(images[9]));
-                                if (btn[4][0].getGraphic()==null)btn[4][0].setGraphic(new ImageView(images[9]));
-                                if (btn[3][1].getGraphic()==null)btn[3][1].setGraphic(new ImageView(images[9]));
-                                if (btn[3][7].getGraphic()==null)btn[3][7].setGraphic(new ImageView(images[9]));
-                                if (btn[4][8].getGraphic()==null)btn[4][8].setGraphic(new ImageView(images[9]));
-                                if (btn[2][8].getGraphic()==null)btn[2][8].setGraphic(new ImageView(images[9]));
-                            }
+                                    // fill traps
+                                    if (btn[2][0].getGraphic()==null)btn[2][0].setGraphic(new ImageView(images[9]));
+                                    if (btn[4][0].getGraphic()==null)btn[4][0].setGraphic(new ImageView(images[9]));
+                                    if (btn[3][1].getGraphic()==null)btn[3][1].setGraphic(new ImageView(images[9]));
+                                    if (btn[3][7].getGraphic()==null)btn[3][7].setGraphic(new ImageView(images[9]));
+                                    if (btn[4][8].getGraphic()==null)btn[4][8].setGraphic(new ImageView(images[9]));
+                                    if (btn[2][8].getGraphic()==null)btn[2][8].setGraphic(new ImageView(images[9]));
 
+                                    // fill grass
+                                    for(int i=0; i<row_num; i++) {
+                                        for (int j = 0; j < col_num; j++) {
+                                            if (btn[i][j].getGraphic()==null)
+                                                btn[i][j].setGraphic(new ImageView(images[11]));
+                                        }
+                                    }
+                                    game.turn = false;
+                                    alertY.showAndWait();
+                                }
+                                else {
+                                    invalid.setHeaderText("Your Move Is Not Possible, " + game.playerX.name + " ~");
+                                    invalid.showAndWait();
+                                }
+                            }
+                            else{
+                                boolean valid = game.board.step(game.playerY, temp[0], temp[1]);
+                                if (valid) {
+                                    // move the icon of the button
+                                    Node img = btn[temp[0].x][8 - temp[0].y].getGraphic();
+                                    btn[temp[1].x][8 - temp[1].y].setGraphic(img);
+                                    btn[temp[0].x][8 - temp[0].y].setGraphic(null);
+                                    // fill rivers
+                                    for(int i=1; i<=5; i++) {
+                                        for (int j = 3; j <= 5; j++) {
+                                            if (i != 3 && btn[i][j].getGraphic()==null) {
+                                                btn[i][j].setGraphic(new ImageView(images[8]));
+                                            }
+                                        }
+                                    }
+                                    // fill traps
+                                    if (btn[2][0].getGraphic()==null)btn[2][0].setGraphic(new ImageView(images[9]));
+                                    if (btn[4][0].getGraphic()==null)btn[4][0].setGraphic(new ImageView(images[9]));
+                                    if (btn[3][1].getGraphic()==null)btn[3][1].setGraphic(new ImageView(images[9]));
+                                    if (btn[3][7].getGraphic()==null)btn[3][7].setGraphic(new ImageView(images[9]));
+                                    if (btn[4][8].getGraphic()==null)btn[4][8].setGraphic(new ImageView(images[9]));
+                                    if (btn[2][8].getGraphic()==null)btn[2][8].setGraphic(new ImageView(images[9]));
+
+                                    // fill grass
+                                    for(int i=0; i<row_num; i++) {
+                                        for (int j = 0; j < col_num; j++) {
+                                            if (btn[i][j].getGraphic()==null)
+                                                btn[i][j].setGraphic(new ImageView(images[11]));
+                                        }
+                                    }
+                                    game.turn = true;
+                                    alertX.showAndWait();
+                                }
+                                else{
+                                    invalid.setHeaderText("Your Move Is Not Possible, " + game.playerY.name + " ~");
+                                    invalid.showAndWait();
+                                }
+                            }
                         }
                     }
                 });
@@ -211,6 +276,20 @@ public class JungleGameGUI extends Application {
                         CreateImages();
                         game.StartNewGame(names[0],names[1]);
                         SetupButtons();
+                        alertX.setTitle("Notice");
+                        alertX.setHeaderText("It's Your Turn - " + names[0] + " ~");
+                        alertX.setContentText("GOOD LUCK!! :D");
+                        alertX.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
+                        alertX.showAndWait();
+
+                        alertY.setTitle("Notice");
+                        alertY.setHeaderText("It's Your Turn - " + names[1] + " ~");
+                        alertY.setContentText("GOOD LUCK!! :D");
+                        alertY.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
+
+                        invalid.setTitle("Warning");
+                        invalid.setContentText("Please Try Again!! :D");
+                        invalid.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/invalid.gif").toString()));
                     }
                 }
                 catch (Exception e){}

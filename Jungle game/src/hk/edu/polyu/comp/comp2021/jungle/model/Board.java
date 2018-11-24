@@ -269,7 +269,7 @@ public class Board implements Serializable {
         // player X/Y wins
         if (board[end.x][end.y].cellType == CellType.den && board[end.x][end.y].cellType.side != player.side) {
             System.out.println(player.name + " win (den)");
-            return true;
+            System.exit(1);
         }
         return false;
     }
