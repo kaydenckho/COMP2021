@@ -1,7 +1,8 @@
-package hk.edu.polyu.comp.comp2021.jungle;
+package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -9,19 +10,36 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+
 import java.util.Optional;
 
 public class JungleGameGUI extends Application {
 
+    private JungleGame game = new JungleGame();
     private int row_num = 7, col_num = 9;
     private Image[] images = new Image[11];
+    private static int clicked;
+    Position[] temp = new Position[2];
+
     // 2D array of Buttons with value of 9,7
-    private Button[][] btn = new Button[row_num][col_num];
+    private final Button[][] btn = new Button[row_num][col_num];
+    private final Position[][] positions = {
+            {Position.A9,Position.A8,Position.A7,Position.A6,Position.A5,Position.A4,Position.A3,Position.A2,Position.A1},
+            {Position.B9,Position.B8,Position.B7,Position.B6,Position.B5,Position.B4,Position.B3,Position.B2,Position.B1},
+            {Position.C9,Position.C8,Position.C7,Position.C6,Position.C5,Position.C4,Position.C3,Position.C2,Position.C1},
+            {Position.D9,Position.D8,Position.D7,Position.D6,Position.D5,Position.D4,Position.D3,Position.D2,Position.D1},
+            {Position.E9,Position.E8,Position.E7,Position.E6,Position.E5,Position.E4,Position.E3,Position.E2,Position.E1},
+            {Position.F9,Position.F8,Position.F7,Position.F6,Position.F5,Position.F4,Position.F3,Position.F2,Position.F1},
+            {Position.G9,Position.G8,Position.G7,Position.G6,Position.G5,Position.G4,Position.G3,Position.G2,Position.G1},
+    };
+    private final GridPane gridPane = new GridPane();
 
     private String[] GetName(){
         Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -67,7 +85,7 @@ public class JungleGameGUI extends Application {
         });
 
         Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(names -> { System.out.println("Player X is " + names.getKey() + ", Player X is " + names.getValue()); });
+        result.ifPresent(names -> { names.getKey();names.getValue(); });
         String[] names = new String[2];
         names[0] = result.get().getKey();
         names[1] = result.get().getValue();
@@ -127,9 +145,34 @@ public class JungleGameGUI extends Application {
                 }
             }
         }
+    }
 
+    private void SetupButtons(){
+        for(int i=0; i<row_num; i++) {
+            for (int j = 0; j <col_num; j++) {
+                btn[i][j].setUserData(positions[i][j]);
+                btn[i][j].setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event1) {
+                        Button n = (Button) event1.getSource();
+                        temp[clicked] = (Position) n.getUserData();
+                        System.out.println(temp[clicked]);
+                        clicked++;
+                        if (clicked >= 2){
+                            clicked = 0;
+                            boolean valid = game.board.step(game.playerX,temp[0],temp[1]);
+                            if (valid){
+                                // move the icon of the button
+                                Node img = btn[temp[0].x][8-temp[0].y].getGraphic();
+                                btn[temp[1].x][8-temp[1].y].setGraphic(img);
+                                btn[temp[0].x][8-temp[0].y].setGraphic(null);
+                            }
 
-
+                        }
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -151,6 +194,8 @@ public class JungleGameGUI extends Application {
                     String[] names = GetName();   // names[0]: player X's name ; names[1]: player Y's name;
                     if (names[0] != null && names[1] != null) {     // If dialog window closed(pressed cancel or Alt+F4)
                         CreateImages();
+                        game.StartNewGame(names[0],names[1]);
+                        SetupButtons();
                     }
                 }
                 catch (Exception e){}
@@ -178,7 +223,6 @@ public class JungleGameGUI extends Application {
         menubar.getMenus().add(menu);
         root.setTop(menubar);
 
-        GridPane gridPane = new GridPane();
         root.setCenter(gridPane);
 
         for(int i=0; i<row_num; i++){

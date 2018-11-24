@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
+
 public class JungleGame {
     Player playerX;
     Player playerY;
@@ -15,7 +16,8 @@ public class JungleGame {
     String filename = "/JungleSave.ser";	// save file name
     boolean save = false;
 
-    public JungleGame(){
+
+   /* public JungleGame(){
         String command = null;
         String[] commandArray = null;
         System.out.println("To start a new game, please enter new.");
@@ -124,19 +126,11 @@ public class JungleGame {
             }
         }
         scanner.close();
-    }
+    } */
 
-    public void StartNewGame(){
-        String playerX_str;
-        String playerY_str;
-        System.out.println("Please enter your names.");
-        System.out.print("Player X: ");
-        Scanner scanner = new Scanner(System.in);
-        playerX_str = scanner.next();
-        System.out.print("Player Y: ");
-        playerY_str = scanner.next();
-        playerX = new Player (playerX_str);
-        playerY = new Player (playerY_str);
+    public void StartNewGame(String nameX, String nameY){
+        playerX = new Player (nameX);
+        playerY = new Player (nameY);
         board = new Board(playerX, playerY);
 
     }
