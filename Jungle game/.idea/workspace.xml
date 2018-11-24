@@ -4,9 +4,7 @@
     <option name="ANALYZE_TEST_SOURCES" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8a3aaae-73a1-4bdb-b5aa-5d9bd33ff1d3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/hk/edu/polyu/comp/comp2021/jungle/model/JungleGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hk/edu/polyu/comp/comp2021/jungle/model/JungleGame.java" afterDir="false" />
-    </list>
+    <list default="true" id="a8a3aaae-73a1-4bdb-b5aa-5d9bd33ff1d3" name="Default" comment="" />
     <ignored path="jungle.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -122,7 +120,7 @@
     <session id="1557289210">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.opened" value="2" />
@@ -158,8 +156,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hk/edu/polyu/comp/comp2021/jungle/model/JungleGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="99" column="26" selection-start-line="99" selection-start-column="26" selection-end-line="99" selection-end-column="26" />
+            <state relative-caret-position="769">
+              <caret line="181" lean-forward="true" selection-start-line="181" selection-end-line="181" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -540,7 +538,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1881663" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -664,8 +661,8 @@
     <entry file="file://$PROJECT_DIR$/src/hk/edu/polyu/comp/comp2021/jungle/JungleGameGUI.java" />
     <entry file="file://$PROJECT_DIR$/src/hk/edu/polyu/comp/comp2021/jungle/model/JungleGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="99" column="26" selection-start-line="99" selection-start-column="26" selection-end-line="99" selection-end-column="26" />
+        <state relative-caret-position="769">
+          <caret line="181" lean-forward="true" selection-start-line="181" selection-end-line="181" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
