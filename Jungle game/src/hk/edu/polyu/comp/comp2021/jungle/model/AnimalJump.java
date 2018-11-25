@@ -92,12 +92,12 @@ abstract class AnimalJump extends Animal implements Serializable {
     boolean notJump (Position start, Position end) {
 
         // move horizontally by one square
-        if (end.x - start.x == 1 || end.x - start.x == -1 && end.y == start.y) {
+        if ((end.x - start.x == 1 || end.x - start.x == -1) && end.y == start.y) {
             return true;
         }
 
         // move vertically by one square
-        if (end.y - start.y == 1 || end.y - start.y == -1 && end.x == start.x) {
+        if ((end.y - start.y == 1 || end.y - start.y == -1) && end.x == start.x) {
             return true;
         }
 
