@@ -23,7 +23,7 @@ public abstract class Animal implements Serializable {
     public boolean isOwnDen (Board.Cell endCell, Animal animal) {
 
         // player's piece to his/her own den
-        if (endCell.cellType == Board.CellType.den && endCell.cellType.side == animal.owner.side) {
+        if (endCell.cellType == Board.CellType.den && endCell.side == animal.owner.side) {
             return true;
         }
 
@@ -33,7 +33,7 @@ public abstract class Animal implements Serializable {
     // 9th check: player's piece's rank >= opponent's piece's rank or rat capture elephant??
     boolean canCapture (Board.Cell endCell) {
         // Opponent's piece in player's trap can be captured by any player's piece regardless of order
-        if (endCell.cellType == Board.CellType.trap && endCell.cellType.side == this.owner.side) return true;
+        if (endCell.cellType == Board.CellType.trap && endCell.side == this.owner.side) return true;
         Animal other = endCell.animal;
 
         // Elephant cannot capture Rat

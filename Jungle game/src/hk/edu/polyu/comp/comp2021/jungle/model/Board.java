@@ -10,20 +10,20 @@ public class Board implements Serializable {
     class Cell implements Serializable{
 
         // Type of a cell
-        public CellType cellType;
+        protected CellType cellType;
 
         // Piece in it (null: no piece in it)
-        public Animal animal;
-        public Cell (CellType cellType) {
+        protected Animal animal;
+        protected Cell (CellType cellType) {
             this.cellType = cellType;
         }
+        // only used for trap and den;
+        protected boolean side;
     }
 
     // Cell Type
     enum CellType {
         normal, river, trap, den;
-        // only used for trap and den;
-        boolean side;
     }
 
     // The board
@@ -75,13 +75,13 @@ public class Board implements Serializable {
         // player X's trap
         // C1
         board [Position.C1.x][Position.C1.y] = new Cell(CellType.trap);
-        board [Position.C1.x][Position.C1.y].cellType.side = true;
+        board [Position.C1.x][Position.C1.y].side = true;
         // D2
         board [Position.D2.x][Position.D2.y] = new Cell(CellType.trap);
-        board [Position.C1.x][Position.C1.y].cellType.side = true;
+        board [Position.C1.x][Position.C1.y].side = true;
         // E1
         board [Position.E1.x][Position.E1.y] = new Cell(CellType.trap);
-        board [Position.E1.x][Position.E1.y].cellType.side = true;
+        board [Position.E1.x][Position.E1.y].side = true;
 
         // player Y's trap
         // C9
@@ -94,6 +94,7 @@ public class Board implements Serializable {
         // den
         // D1
         board [Position.D1.x][Position.D1.y] = new Cell(CellType.den);
+        board [Position.D1.x][Position.D1.y].side=true;
         // D9
         board [Position.D9.x][Position.D9.y] = new Cell(CellType.den);
 
@@ -136,7 +137,7 @@ public class Board implements Serializable {
         board [Position.A7.x][Position.A7.y].animal = new Rat(playerY);
     }
 
-    public boolean step (Player player, Position start, Position end) {
+    protected boolean step (Player player, Position start, Position end) {
         if (validIndex(start, end)) {
 
             if (hasAnimal(start)) {
@@ -205,17 +206,17 @@ public class Board implements Serializable {
 
     // 2nd check : there is a piece in the starting position?
     // 7th check : there is a piece in the ending position?
-    public boolean hasAnimal (Position p) {return board[p.x][p.y].animal != null;}
+    protected boolean hasAnimal (Position p) {return board[p.x][p.y].animal != null;}
 
     // 3rd check : the piece in the starting position is player's piece?
     // 8th check : the piece in the ending position is player's piece?
-    public boolean isOwnAnimal (Player player, Position p) {return board[p.x][p.y].animal.owner == player;}
+    protected boolean isOwnAnimal (Player player, Position p) {return board[p.x][p.y].animal.owner == player;}
 
 
     // 10th check:
     // Player's piece is a rat?
     // If yes, it capture a piece from normal cell to river?? (or from river to normal cell??)
-    public boolean ratCheck (Position start, Position end) {
+    protected boolean ratCheck (Position start, Position end) {
         if (board[start.x][start.y].animal.name.equals("Rat")) {
             if (board[start.x][start.y].cellType == CellType.normal && board[end.x][end.y].cellType == CellType.river) {
                 return false;
@@ -228,7 +229,7 @@ public class Board implements Serializable {
     }
 
     // Capture opponent's piece
-    public boolean capture (Position start, Position end, Animal animal) {
+    protected boolean capture (Position start, Position end, Animal animal) {
 
         // Opponent's number of piece - 1
         board[end.x][end.y].animal.owner.pieceCount --;
@@ -244,7 +245,7 @@ public class Board implements Serializable {
     }
 
     // 1st win condition: Opponent have zero piece
-    public boolean isZeroPieceCount (Player player, Player opponent) {
+    protected boolean isZeroPieceCount (Player player, Player opponent) {
         // if Player X's number of piece is 0 or Player Y's number of piece is 0
         if(opponent.pieceCount == 0) {
             System.out.println(player.name + " win (zero).");
@@ -254,7 +255,7 @@ public class Board implements Serializable {
     }
 
     // Player's piece move to a empty cell
-    public boolean  move (Position start, Position end, Animal animal) {
+    protected boolean  move (Position start, Position end, Animal animal) {
         board[end.x][end.y].animal = animal;
         // Remove player's piece in the starting position
         board[start.x][start.y].animal = null;
@@ -264,12 +265,12 @@ public class Board implements Serializable {
     }
 
     // 2nd win condition: Player's piece move to opponent's den
-    public boolean isDen (Position end, Player player) {
+    protected boolean isDen (Position end, Player player) {
 
         // player X/Y wins
-        if (board[end.x][end.y].cellType == CellType.den && board[end.x][end.y].cellType.side != player.side) {
+        if (board[end.x][end.y].cellType == CellType.den && board[end.x][end.y].side != player.side) {
             System.out.println(player.name + " win (den)");
-            System.exit(1);
+            return true;
         }
         return false;
     }

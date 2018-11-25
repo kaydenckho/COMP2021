@@ -2,7 +2,6 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -10,8 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -21,19 +18,20 @@ import javafx.util.Pair;
 import java.util.Optional;
 
 public class JungleGameGUI extends Application {
-
+    private final int num_img = 12;
+    private final int row_num = 7, col_num = 9;
     private JungleGame game = new JungleGame();
-    private int row_num = 7, col_num = 9;
-    private Image[] images = new Image[12];
-    private static int clicked;
-    Position[] temp = new Position[2];
-
-    Alert alertX = new Alert(Alert.AlertType.INFORMATION);
-    Alert alertY = new Alert(Alert.AlertType.INFORMATION);
-    Alert invalid = new Alert(Alert.AlertType.INFORMATION);
+    private Image[] images = new Image[num_img];
+    private static int clicked;   // Number of times the button being clicked.
+    private Position[] temp = new Position[2];
 
     // 2D array of Buttons with value of 9,7
     private final Button[][] btn = new Button[row_num][col_num];
+    private Alert alertX = new Alert(Alert.AlertType.INFORMATION);
+    private Alert alertY = new Alert(Alert.AlertType.INFORMATION);
+    private Alert invalid = new Alert(Alert.AlertType.WARNING);
+    private Alert win = new Alert(Alert.AlertType.INFORMATION);
+    private Alert save = new Alert(Alert.AlertType.INFORMATION);
     private final Position[][] positions = {
             {Position.A9,Position.A8,Position.A7,Position.A6,Position.A5,Position.A4,Position.A3,Position.A2,Position.A1},
             {Position.B9,Position.B8,Position.B7,Position.B6,Position.B5,Position.B4,Position.B3,Position.B2,Position.B1},
@@ -96,7 +94,30 @@ public class JungleGameGUI extends Application {
         return names;
     }
 
-    private void CreateImages(){
+    private void SetupAlerts(String nameX, String nameY) {
+        alertX.setTitle("Notice");
+        alertX.setHeaderText("It's Your Turn - " + nameX + " ~");
+        alertX.setContentText("GOOD LUCK!! :D");
+        alertX.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
+        alertX.showAndWait();
+
+        alertY.setTitle("Notice");
+        alertY.setHeaderText("It's Your Turn - " + nameY + " ~");
+        alertY.setContentText("GOOD LUCK!! :D");
+        alertY.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
+
+        invalid.setTitle("Warning");
+        invalid.setContentText("Please Try Again!! :D");
+        invalid.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/invalid.gif").toString()));
+
+        win.setTitle("Notice");
+        win.setHeaderText("Congratulations!!");
+        win.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/win.gif").toString()));
+
+        save.setTitle("Notice");
+    }
+
+    private void CreateImages(String mode){
         images[0]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/cat.gif"));
         images[1]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/dog.gif"));
         images[2]= new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/wolf.gif"));
@@ -116,32 +137,12 @@ public class JungleGameGUI extends Application {
                 btn[i][j].setGraphic(new ImageView(images[11]));
             }
         }
-
-        // Set X's animals
-        btn[0][0].setGraphic(new ImageView(images[3]));
-        btn[6][0].setGraphic(new ImageView(images[4]));
-        btn[5][1].setGraphic(new ImageView(images[0]));
-        btn[1][1].setGraphic(new ImageView(images[1]));
-        btn[4][2].setGraphic(new ImageView(images[2]));
-        btn[0][2].setGraphic(new ImageView(images[5]));
-        btn[2][2].setGraphic(new ImageView(images[6]));
-        btn[6][2].setGraphic(new ImageView(images[7]));
         // Set X's trap
         btn[2][0].setGraphic(new ImageView(images[9]));
         btn[4][0].setGraphic(new ImageView(images[9]));
         btn[3][1].setGraphic(new ImageView(images[9]));
         //Set X's den
         btn[3][0].setGraphic(new ImageView(images[10]));
-
-        // Set Y's animals
-        btn[6][8].setGraphic(new ImageView(images[3]));
-        btn[0][8].setGraphic(new ImageView(images[4]));
-        btn[1][7].setGraphic(new ImageView(images[0]));
-        btn[5][7].setGraphic(new ImageView(images[1]));
-        btn[2][6].setGraphic(new ImageView(images[2]));
-        btn[6][6].setGraphic(new ImageView(images[5]));
-        btn[4][6].setGraphic(new ImageView(images[6]));
-        btn[0][6].setGraphic(new ImageView(images[7]));
         // Set Y's trap
         btn[3][7].setGraphic(new ImageView(images[9]));
         btn[4][8].setGraphic(new ImageView(images[9]));
@@ -157,6 +158,33 @@ public class JungleGameGUI extends Application {
                 }
             }
         }
+
+        if (mode == "New") {
+            // Set X's animals
+            btn[0][0].setGraphic(new ImageView(images[3]));
+            btn[6][0].setGraphic(new ImageView(images[4]));
+            btn[5][1].setGraphic(new ImageView(images[0]));
+            btn[1][1].setGraphic(new ImageView(images[1]));
+            btn[4][2].setGraphic(new ImageView(images[2]));
+            btn[0][2].setGraphic(new ImageView(images[5]));
+            btn[2][2].setGraphic(new ImageView(images[6]));
+            btn[6][2].setGraphic(new ImageView(images[7]));
+
+
+            // Set Y's animals
+            btn[6][8].setGraphic(new ImageView(images[3]));
+            btn[0][8].setGraphic(new ImageView(images[4]));
+            btn[1][7].setGraphic(new ImageView(images[0]));
+            btn[5][7].setGraphic(new ImageView(images[1]));
+            btn[2][6].setGraphic(new ImageView(images[2]));
+            btn[6][6].setGraphic(new ImageView(images[5]));
+            btn[4][6].setGraphic(new ImageView(images[6]));
+            btn[0][6].setGraphic(new ImageView(images[7]));
+        }
+        if (mode == "Open"){
+
+        }
+
     }
 
     private void SetupButtons(){
@@ -202,6 +230,11 @@ public class JungleGameGUI extends Application {
                                                 btn[i][j].setGraphic(new ImageView(images[11]));
                                         }
                                     }
+                                    if (game.board.victory){
+                                        win.setContentText(game.playerX.name+" wins!!");
+                                        win.showAndWait();
+                                        System.exit(1);
+                                    }
                                     game.turn = false;
                                     alertY.showAndWait();
                                 }
@@ -240,6 +273,16 @@ public class JungleGameGUI extends Application {
                                                 btn[i][j].setGraphic(new ImageView(images[11]));
                                         }
                                     }
+                                    if (game.board.victory){
+                                        win.setContentText(game.playerX.name+" wins!!");
+                                        win.showAndWait();
+                                        System.exit(1);
+                                    }
+                                    if (game.board.victory){
+                                        win.setContentText(game.playerY.name+" wins!!");
+                                        win.showAndWait();
+                                        System.exit(1);
+                                    }
                                     game.turn = true;
                                     alertX.showAndWait();
                                 }
@@ -273,23 +316,12 @@ public class JungleGameGUI extends Application {
                 try {
                     String[] names = GetName();   // names[0]: player X's name ; names[1]: player Y's name;
                     if (names[0] != null && names[1] != null) {     // If dialog window closed(pressed cancel or Alt+F4)
-                        CreateImages();
+                        CreateImages("New");
                         game.StartNewGame(names[0],names[1]);
+                        // Setup alerts
+                        SetupAlerts(names[0],names[1]);
+                        // Setup buttons
                         SetupButtons();
-                        alertX.setTitle("Notice");
-                        alertX.setHeaderText("It's Your Turn - " + names[0] + " ~");
-                        alertX.setContentText("GOOD LUCK!! :D");
-                        alertX.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
-                        alertX.showAndWait();
-
-                        alertY.setTitle("Notice");
-                        alertY.setHeaderText("It's Your Turn - " + names[1] + " ~");
-                        alertY.setContentText("GOOD LUCK!! :D");
-                        alertY.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/alert.gif").toString()));
-
-                        invalid.setTitle("Warning");
-                        invalid.setContentText("Please Try Again!! :D");
-                        invalid.setGraphic(new ImageView(this.getClass().getResource("/hk/edu/polyu/comp/comp2021/jungle/img/invalid.gif").toString()));
                     }
                 }
                 catch (Exception e){
@@ -304,24 +336,50 @@ public class JungleGameGUI extends Application {
                     if(game.OpenSavedGame()){
                         String[] names = {game.playerX.name, game.playerY.name};
                         //initailize images according to board
+                        CreateImages("Open");
+                        // setup alerts
+                        SetupAlerts(names[0],names[1]);
+                        // setup buttons
                         SetupButtons();
                     }
                 }
                 catch(Exception e){
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         });
         // Do action for "Save" here
         Save.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
-
+                try {
+                    if (game.SaveGame()) {
+                        save.setHeaderText("Your Game Is Saved Successfully!!");
+                        save.setContentText("Your Game Is Saved Successfully!!");
+                        save.showAndWait();
+                    } else {
+                        save.setHeaderText("Oops.. Your Game Cannot Be Saved.");
+                        save.setContentText("Oops.. Your Game Cannot Be Saved.");
+                        save.showAndWait();
+                    }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         // Do action for "Surrender" here
         Surrender.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
-
+                if(!game.turn){
+                    win.setContentText(game.playerX.name+" wins!!");
+                    win.showAndWait();
+                    System.exit(1);
+                }
+                else{
+                    win.setContentText(game.playerY.name+" wins!!");
+                    win.showAndWait();
+                    System.exit(1);
+                }
             }
         });
         menu.getItems().addAll(New, Open, Save, Surrender);
