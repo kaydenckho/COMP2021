@@ -40,7 +40,7 @@ public class JungleGame {
             return false;
         }
     }
-
+    // Need to open this project using ADMINISTRATOR to have the access permission
     public boolean SaveGame(){
         //Saving objects, every objects to be saved need to use implement Serializable
         try {

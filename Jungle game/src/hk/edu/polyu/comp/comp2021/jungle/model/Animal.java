@@ -26,7 +26,6 @@ public abstract class Animal implements Serializable {
         if (endCell.cellType == Board.CellType.den && endCell.side == animal.owner.side) {
             return true;
         }
-
         return false;
     }
 

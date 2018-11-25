@@ -159,7 +159,7 @@ public class JungleGameGUI extends Application {
             }
         }
 
-        if (mode == "New") {
+        if (mode.equals("New")) {
             // Set X's animals
             btn[0][0].setGraphic(new ImageView(images[3]));
             btn[6][0].setGraphic(new ImageView(images[4]));
@@ -181,8 +181,32 @@ public class JungleGameGUI extends Application {
             btn[4][6].setGraphic(new ImageView(images[6]));
             btn[0][6].setGraphic(new ImageView(images[7]));
         }
-        if (mode == "Open"){
-
+        if (mode.equals("Open")){
+            for (int i = 0;i<row_num;i++){
+                for (int j=0;j<col_num;j++){
+                    if (game.board.board[i][j].animal !=null) {
+                        String animal = game.board.board[i][j].animal.name;
+                        switch (animal) {
+                            case "Cat":
+                                btn[i][8-j].setGraphic(new ImageView(images[0]));break;
+                            case "Dog":
+                                btn[i][8-j].setGraphic(new ImageView(images[1]));break;
+                            case "Wolf":
+                                btn[i][8-j].setGraphic(new ImageView(images[2]));break;
+                            case "Lion":
+                                btn[i][8-j].setGraphic(new ImageView(images[3]));break;
+                            case "Tiger":
+                                btn[i][8-j].setGraphic(new ImageView(images[4]));break;
+                            case "Rat":
+                                btn[i][8-j].setGraphic(new ImageView(images[5]));break;
+                            case "Leopard":
+                                btn[i][8-j].setGraphic(new ImageView(images[6]));break;
+                            case "Elephant":
+                                btn[i][8-j].setGraphic(new ImageView(images[7]));break;
+                        }
+                    }
+                }
+            }
         }
 
     }
@@ -349,6 +373,7 @@ public class JungleGameGUI extends Application {
             }
         });
         // Do action for "Save" here
+        // Need to open this project using ADMINISTRATOR to have the access permission!!
         Save.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
                 try {
