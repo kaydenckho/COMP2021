@@ -2,7 +2,7 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import java.io.Serializable;
 
-public abstract class Animal implements Serializable {
+abstract class Animal implements Serializable {
     String name;
     int rank;
     Player owner;
@@ -20,7 +20,7 @@ public abstract class Animal implements Serializable {
     }
 
     // 6th check: player's piece move to his/her own den?
-    public boolean isOwnDen (Board.Cell endCell, Animal animal) {
+    boolean isOwnDen (Board.Cell endCell, Animal animal) {
 
         // player's piece to his/her own den
         if (endCell.cellType == Board.CellType.den && endCell.side == animal.owner.side) {

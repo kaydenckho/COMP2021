@@ -4,18 +4,35 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.*;
 
-
+/** Main Class of Jungle Game software
+ *  The starting point of the backend program
+ *  Methods available:
+ *  void StartNewGame(String nameX, String nameY),
+ *  boolean OpenSavedGame()
+ *  boolean SaveGame()
+ */
 public class JungleGame {
-    Player playerX;
-    Player playerY;
-    boolean turn = true;                // true = x's trun / false = y's turn
-    Board board;
-    String path = "";                   // custom save directory that input in save/load command;
-    String filename = "/JungleSave.ser";	// save file name
-    boolean save = false;
+    /** An instance of player X */
+    protected Player playerX;
+    /** An instance of player Y */
+    protected Player playerY;
+    /** true = x's trun / false = y's turn */
+    protected boolean turn = true;
+    /** An instance of game board */
+    protected Board board;
+    /** custom save directory that input in save/load command; */
+    protected String path = "";
+    /** save file name *///
+    protected String filename = "/JungleSave.ser";
+    /** variable to indicate the success of SaveGame() */
+    protected boolean save = false;
 
+    /**
+     * Method to start a new game
+     * @param nameX Name of player X
+     * @param nameY Name of player Y
+     */
     public void StartNewGame(String nameX, String nameY){
         playerX = new Player (nameX);
         playerY = new Player (nameY);
@@ -23,7 +40,11 @@ public class JungleGame {
 
     }
 
-    public boolean OpenSavedGame(){
+    /**
+     * Method to open a saved game
+     *
+     **/
+     public boolean OpenSavedGame(){
         //loading save files from path in load command
         try {
             FileInputStream fis = new FileInputStream(path+filename);
@@ -40,7 +61,11 @@ public class JungleGame {
             return false;
         }
     }
-    // Need to open this project using ADMINISTRATOR to have the access permission
+      /**
+       * Method to save the current game
+      * Need to open this project using ADMINISTRATOR to have the access permission in
+      * order to use SaveGame(), otherwise Access Denied Exception may occur.
+      */
     public boolean SaveGame(){
         //Saving objects, every objects to be saved need to use implement Serializable
         try {

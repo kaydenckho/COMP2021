@@ -1,24 +1,22 @@
 package hk.edu.polyu.comp.comp2021.jungle.model;
 
-import hk.edu.polyu.comp.comp2021.jungle.model.Animal;
-import hk.edu.polyu.comp.comp2021.jungle.model.Player;
 import java.io.Serializable;
 
-public class Board implements Serializable {
+class Board implements Serializable {
 
     // A cell in a board
     class Cell implements Serializable{
 
         // Type of a cell
-        protected CellType cellType;
+        CellType cellType;
 
         // Piece in it (null: no piece in it)
-        protected Animal animal;
-        protected Cell (CellType cellType) {
+        Animal animal;
+        Cell (CellType cellType) {
             this.cellType = cellType;
         }
         // only used for trap and den;
-        protected boolean side;
+        boolean side;
     }
 
     // Cell Type
@@ -27,11 +25,11 @@ public class Board implements Serializable {
     }
 
     // The board
-    public Cell[][] board;
+    Cell[][] board;
     // true when one player wins
     boolean victory;
 
-    public Board (hk.edu.polyu.comp.comp2021.jungle.model.Player playerX, hk.edu.polyu.comp.comp2021.jungle.model.Player playerY) {
+    Board (hk.edu.polyu.comp.comp2021.jungle.model.Player playerX, hk.edu.polyu.comp.comp2021.jungle.model.Player playerY) {
 
         // playerX is in side X of the board
         playerX.side = true;
@@ -137,7 +135,7 @@ public class Board implements Serializable {
         board [Position.A7.x][Position.A7.y].animal = new Rat(playerY);
     }
 
-    protected boolean step (Player player, Position start, Position end) {
+    boolean step (Player player, Position start, Position end) {
         if (validIndex(start, end)) {
 
             if (hasAnimal(start)) {
@@ -160,33 +158,31 @@ public class Board implements Serializable {
                                         if (currentAnimal.canCapture(board[end.x][end.y])) {
 
                                             if (ratCheck(start, end)) {
-                                                System.out.println("valid move");
                                                 victory = capture(start, end, currentAnimal);
                                                 return true;
                                             }
-                                            else System.out.println("ratCheck invalid"); return false;
+                                            else return false;
                                         }
-                                        else System.out.println("canCapture invalid"); return false;
+                                        else return false;
                                     }
-                                    else System.out.println("isOwnAnimal (player, end) invalid"); return false;
+                                    else return false;
                                 }
                                 else {
-                                    System.out.println("valid move");
                                     victory = move(start, end, currentAnimal);
                                     return true;
                                 }
                             }
-                            else System.out.println("isOwnDen invalid"); return false;
+                            else return false;
                         }
-                        else System.out.println("canSwim invalid"); return false;
+                        else return false;
                     }
-                    else System.out.println("isOneMove invalid"); return false;
+                    else return false;
                 }
-                else System.out.println("isOwnAnimal (player, start) invalid"); return false;
+                else return false;
             }
-            else System.out.println("hasAnimal (start) invalid"); return false;
+            else return false;
         }
-        else System.out.println("validIndex invalid"); return false;
+        else return false;
     }
 
     // 1st check
@@ -206,17 +202,17 @@ public class Board implements Serializable {
 
     // 2nd check : there is a piece in the starting position?
     // 7th check : there is a piece in the ending position?
-    protected boolean hasAnimal (Position p) {return board[p.x][p.y].animal != null;}
+    boolean hasAnimal (Position p) {return board[p.x][p.y].animal != null;}
 
     // 3rd check : the piece in the starting position is player's piece?
     // 8th check : the piece in the ending position is player's piece?
-    protected boolean isOwnAnimal (Player player, Position p) {return board[p.x][p.y].animal.owner == player;}
+    boolean isOwnAnimal (Player player, Position p) {return board[p.x][p.y].animal.owner == player;}
 
 
     // 10th check:
     // Player's piece is a rat?
     // If yes, it capture a piece from normal cell to river?? (or from river to normal cell??)
-    protected boolean ratCheck (Position start, Position end) {
+    boolean ratCheck (Position start, Position end) {
         if (board[start.x][start.y].animal.name.equals("Rat")) {
             if (board[start.x][start.y].cellType == CellType.normal && board[end.x][end.y].cellType == CellType.river) {
                 return false;
@@ -229,7 +225,7 @@ public class Board implements Serializable {
     }
 
     // Capture opponent's piece
-    protected boolean capture (Position start, Position end, Animal animal) {
+    boolean capture (Position start, Position end, Animal animal) {
 
         // Opponent's number of piece - 1
         board[end.x][end.y].animal.owner.pieceCount --;
@@ -245,17 +241,16 @@ public class Board implements Serializable {
     }
 
     // 1st win condition: Opponent have zero piece
-    protected boolean isZeroPieceCount (Player player, Player opponent) {
+    boolean isZeroPieceCount (Player player, Player opponent) {
         // if Player X's number of piece is 0 or Player Y's number of piece is 0
         if(opponent.pieceCount == 0) {
-            System.out.println(player.name + " win (zero).");
             return true;
         }
         return false;
     }
 
     // Player's piece move to a empty cell
-    protected boolean  move (Position start, Position end, Animal animal) {
+    boolean  move (Position start, Position end, Animal animal) {
         board[end.x][end.y].animal = animal;
         // Remove player's piece in the starting position
         board[start.x][start.y].animal = null;
@@ -265,11 +260,10 @@ public class Board implements Serializable {
     }
 
     // 2nd win condition: Player's piece move to opponent's den
-    protected boolean isDen (Position end, Player player) {
+    boolean isDen (Position end, Player player) {
 
         // player X/Y wins
         if (board[end.x][end.y].cellType == CellType.den && board[end.x][end.y].side != player.side) {
-            System.out.println(player.name + " win (den)");
             return true;
         }
         return false;

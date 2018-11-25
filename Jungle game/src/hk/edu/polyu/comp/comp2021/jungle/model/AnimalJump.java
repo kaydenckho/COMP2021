@@ -2,7 +2,7 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import java.io.Serializable;
 
-public abstract class AnimalJump extends Animal implements Serializable {
+abstract class AnimalJump extends Animal implements Serializable {
 
     // 4rd check
     // To be continued

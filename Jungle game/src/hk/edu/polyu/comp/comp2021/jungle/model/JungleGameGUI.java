@@ -220,7 +220,6 @@ public class JungleGameGUI extends Application {
                     public void handle(ActionEvent event1) {
                         Button n = (Button) event1.getSource();
                         temp[clicked] = (Position) n.getUserData();
-                        System.out.println(temp[clicked]);
                         clicked++;
                         if (clicked >= 2){
                             clicked = 0;
@@ -428,6 +427,9 @@ public class JungleGameGUI extends Application {
 
     }
 
+    /** Main program begins here
+     *  The GUI application will be launched.
+     * */
     public static void main(String[] args) {
         Application.launch(args);
     }

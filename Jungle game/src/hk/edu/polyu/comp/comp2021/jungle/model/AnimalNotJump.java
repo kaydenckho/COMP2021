@@ -2,7 +2,7 @@ package hk.edu.polyu.comp.comp2021.jungle.model;
 
 import java.io.Serializable;
 
-public abstract class AnimalNotJump extends Animal implements Serializable {
+abstract class AnimalNotJump extends Animal implements Serializable {
 
     // 4rd check: player's piece move only one square horizontally or vertically?
     boolean isOneMove (Board.Cell[][] board, Position start, Position end) {

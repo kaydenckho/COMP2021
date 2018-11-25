@@ -1,6 +1,6 @@
 package hk.edu.polyu.comp.comp2021.jungle.model;
 
-public class Rat extends AnimalNotJump {
+class Rat extends AnimalNotJump {
     Rat(Player player) {
         name = "Rat";
         rank = 1;

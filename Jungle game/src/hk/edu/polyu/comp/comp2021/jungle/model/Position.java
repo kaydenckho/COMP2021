@@ -1,7 +1,7 @@
 package hk.edu.polyu.comp.comp2021.jungle.model;
 
 // Position of a piece in a board
-public enum Position {
+enum Position {
     A1(0,0), A2(0,1), A3(0,2), A4(0,3), A5(0,4), A6(0,5), A7(0,6), A8(0,7), A9(0,8),
     B1(1,0), B2(1,1), B3(1,2), B4(1,3), B5(1,4), B6(1,5), B7(1,6), B8(1,7), B9(1,8),
     C1(2,0), C2(2,1), C3(2,2), C4(2,3), C5(2,4), C6(2,5), C7(2,6), C8(2,7), C9(2,8),
@@ -11,10 +11,10 @@ public enum Position {
     G1(6,0), G2(6,1), G3(6,2), G4(6,3), G5(6,4), G6(6,5), G7(6,6), G8(6,7), G9(6,8);
 
     // x = column (A - G)
-    public int x;
+    int x;
 
     // y = row (1 - 9)
-    public int y;
+    int y;
 
     Position (int x, int y) {
         this.x = x;
