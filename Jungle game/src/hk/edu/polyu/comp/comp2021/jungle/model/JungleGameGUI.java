@@ -18,7 +18,7 @@ import javafx.util.Pair;
 import java.util.Optional;
 
 public class JungleGameGUI extends Application {
-    private final int num_img = 12;
+    private final int num_img = 22;
     private final int row_num = 7, col_num = 9;
     private JungleGame game = new JungleGame();
     private Image[] images = new Image[num_img];
@@ -130,6 +130,16 @@ public class JungleGameGUI extends Application {
         images[9] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/trap.gif"));
         images[10] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/den.gif"));
         images[11] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/grass.gif"));
+        images[12] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/cat2.gif"));
+        images[13] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/dog2.gif"));
+        images[14] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/wolf2.gif"));
+        images[15] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/lion2.gif"));
+        images[16] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/tiger2.gif"));
+        images[17] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/rat2.gif"));
+        images[18] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/leopard2.gif"));
+        images[19] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/elephant2.gif"));
+        images[20] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/trap2.gif"));
+        images[21] = new Image(getClass().getResourceAsStream("/hk/edu/polyu/comp/comp2021/jungle/img/den2.gif"));
 
         //Set all grass map
         for(int i=0; i<row_num; i++) {
@@ -138,11 +148,11 @@ public class JungleGameGUI extends Application {
             }
         }
         // Set X's trap
-        btn[2][0].setGraphic(new ImageView(images[9]));
-        btn[4][0].setGraphic(new ImageView(images[9]));
-        btn[3][1].setGraphic(new ImageView(images[9]));
+        btn[2][0].setGraphic(new ImageView(images[20]));
+        btn[4][0].setGraphic(new ImageView(images[20]));
+        btn[3][1].setGraphic(new ImageView(images[20]));
         //Set X's den
-        btn[3][0].setGraphic(new ImageView(images[10]));
+        btn[3][0].setGraphic(new ImageView(images[21]));
         // Set Y's trap
         btn[3][7].setGraphic(new ImageView(images[9]));
         btn[4][8].setGraphic(new ImageView(images[9]));
@@ -161,14 +171,14 @@ public class JungleGameGUI extends Application {
 
         if (mode.equals("New")) {
             // Set X's animals
-            btn[0][0].setGraphic(new ImageView(images[3]));
-            btn[6][0].setGraphic(new ImageView(images[4]));
-            btn[5][1].setGraphic(new ImageView(images[0]));
-            btn[1][1].setGraphic(new ImageView(images[1]));
-            btn[4][2].setGraphic(new ImageView(images[2]));
-            btn[0][2].setGraphic(new ImageView(images[5]));
-            btn[2][2].setGraphic(new ImageView(images[6]));
-            btn[6][2].setGraphic(new ImageView(images[7]));
+            btn[0][0].setGraphic(new ImageView(images[15]));
+            btn[6][0].setGraphic(new ImageView(images[16]));
+            btn[5][1].setGraphic(new ImageView(images[12]));
+            btn[1][1].setGraphic(new ImageView(images[13]));
+            btn[4][2].setGraphic(new ImageView(images[14]));
+            btn[0][2].setGraphic(new ImageView(images[17]));
+            btn[2][2].setGraphic(new ImageView(images[18]));
+            btn[6][2].setGraphic(new ImageView(images[19]));
 
 
             // Set Y's animals
@@ -186,23 +196,61 @@ public class JungleGameGUI extends Application {
                 for (int j=0;j<col_num;j++){
                     if (game.board.board[i][j].animal !=null) {
                         String animal = game.board.board[i][j].animal.name;
-                        switch (animal) {
-                            case "Cat":
-                                btn[i][8-j].setGraphic(new ImageView(images[0]));break;
-                            case "Dog":
-                                btn[i][8-j].setGraphic(new ImageView(images[1]));break;
-                            case "Wolf":
-                                btn[i][8-j].setGraphic(new ImageView(images[2]));break;
-                            case "Lion":
-                                btn[i][8-j].setGraphic(new ImageView(images[3]));break;
-                            case "Tiger":
-                                btn[i][8-j].setGraphic(new ImageView(images[4]));break;
-                            case "Rat":
-                                btn[i][8-j].setGraphic(new ImageView(images[5]));break;
-                            case "Leopard":
-                                btn[i][8-j].setGraphic(new ImageView(images[6]));break;
-                            case "Elephant":
-                                btn[i][8-j].setGraphic(new ImageView(images[7]));break;
+                        if (game.board.board[i][j].animal.owner.name.equals(game.playerX.name)) {
+                            switch (animal) {
+                                case "Cat":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[0]));
+                                    break;
+                                case "Dog":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[1]));
+                                    break;
+                                case "Wolf":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[2]));
+                                    break;
+                                case "Lion":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[3]));
+                                    break;
+                                case "Tiger":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[4]));
+                                    break;
+                                case "Rat":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[5]));
+                                    break;
+                                case "Leopard":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[6]));
+                                    break;
+                                case "Elephant":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[7]));
+                                    break;
+                            }
+                        }
+                        else{
+                            switch (animal) {
+                                case "Cat":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[12]));
+                                    break;
+                                case "Dog":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[13]));
+                                    break;
+                                case "Wolf":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[14]));
+                                    break;
+                                case "Lion":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[15]));
+                                    break;
+                                case "Tiger":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[16]));
+                                    break;
+                                case "Rat":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[17]));
+                                    break;
+                                case "Leopard":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[18]));
+                                    break;
+                                case "Elephant":
+                                    btn[i][8 - j].setGraphic(new ImageView(images[19]));
+                                    break;
+                            }
                         }
                     }
                 }
